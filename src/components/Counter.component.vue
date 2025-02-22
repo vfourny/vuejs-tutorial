@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import {computed, ref} from 'vue';
+import {NButton, NCard, NText} from 'naive-ui';
 
 const counter = ref(0);
 const doubleCounter = computed(() => counter.value * 2);
@@ -10,10 +11,14 @@ const reset = () => {
 </script>
 
 <template>
-  <div>
-    <p>Compteur : {{ counter }}</p>
-    <p>Double compteur : {{ doubleCounter }}</p>
-    <button @click="counter++">Incrémenter</button>
-    <button v-bind:disabled="counter===0" @click="reset">Réinitialiser</button>
-  </div>
+  <n-card bordered title="Compteur">
+    <n-text strong>Valeur actuelle : {{ counter }}</n-text>
+    <br/>
+    <n-text type="success">Double : {{ doubleCounter }}</n-text>
+    <br/><br/>
+    <n-button type="primary" @click="counter++">Incrémenter</n-button>
+    <n-button :disabled="counter === 0" class="ml-2" type="error" @click="reset">
+      Réinitialiser
+    </n-button>
+  </n-card>
 </template>

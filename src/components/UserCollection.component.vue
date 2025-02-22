@@ -1,18 +1,17 @@
 <template>
-  <div class="user-list">
-    <h2>Liste des utilisateurs</h2>
-    <ul>
-      <li v-for="user in users" :key="user.name" @click="sendUser(user)">
-        {{ user.name }} - {{ user.age }} ans
-      </li>
-    </ul>
-
+  <n-card bordered title="Liste des utilisateurs">
+    <n-list bordered>
+      <n-list-item v-for="user in users" :key="user.name" @click="sendUser(user)">
+        <n-text>{{ user.name }} - {{ user.age }} ans</n-text>
+      </n-list-item>
+    </n-list>
     <slot></slot>
-  </div>
+  </n-card>
 </template>
 
 <script lang="ts" setup>
-import {defineProps} from 'vue';
+import {defineEmits, defineProps} from 'vue';
+import {NCard, NList, NListItem, NText} from 'naive-ui';
 import type {User} from '../types/common.type.ts';
 
 const props = defineProps({
