@@ -37,10 +37,3 @@ const reset = () => {
     </div>
   </div>
 </template>
-
-<style scoped>
-div {
-  margin-top: 2em;
-  display: block
-}
-</style>
