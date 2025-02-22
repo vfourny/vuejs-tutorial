@@ -1,39 +1,44 @@
-<script setup>
-import {computed, ref} from 'vue';
+<script lang="ts" setup>
+import {ref} from 'vue';
+import CounterComponent from './components/Counter.component.vue';
+import UserCollection from './components/UserCollection.component.vue';
+import type {User} from './types/common.type.ts';
 
-const counter = ref(0);
-const connectedUser = ref(null);
-const users = ref([
+const selectedUser = ref<User | null>(null);
+const newUser = ref({name: '', age: 0});
+
+const users = ref<User[]>([
   {name: 'John', age: 25},
   {name: 'Jane', age: 24},
   {name: 'Jack', age: 30},
 ]);
 
-const doubleCounter = computed(() => counter.value * 2);
-
-const reset = () => {
-  counter.value = 0;
+const userReceived = (user: User) => {
+  selectedUser.value = user;
 };
+
+const addUser = () => {
+  if (newUser.value.name && newUser.value.age) {
+    users.value.push({...newUser.value});
+  }
+};
+
 </script>
 
 <template>
   <div
   >
-    <div>
-      <p>Compteur : {{ counter }}</p>
-      <p>Double compteur : {{ doubleCounter }}</p>
-      <button @click="counter++">Incrémenter</button>
-      <button v-bind:disabled="counter===0" @click="reset">Réinitialiser</button>
-    </div>
+    <CounterComponent/>
 
     <div>
-      <p v-if="connectedUser">Connected User : {{ connectedUser }}</p>
-      <ul>
-        <li v-for="user in users" :key="user.name">
-          {{ user.name }} - {{ user.age }} years
-        </li>
-      </ul>
-      <input v-model="connectedUser" type="text">
+      <p v-if="selectedUser">Selected User : {{ selectedUser.name }}</p>
+      <UserCollection :users="users" @send-user="userReceived">
+        <div class="form-group">
+          <input v-model="newUser.name" placeholder="Nom"/>
+          <input v-model="newUser.age" placeholder="Âge" type="number"/>
+          <button @click="addUser">Valider</button>
+        </div>
+      </UserCollection>
     </div>
   </div>
 </template>
