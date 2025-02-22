@@ -13,6 +13,8 @@
 import {defineEmits, defineProps} from 'vue';
 import {NCard, NList, NListItem, NText} from 'naive-ui';
 import type {User} from '../types/common.type.ts';
+import {useCounterStore} from "@/stores/counter.store.ts";
+import {storeToRefs} from "pinia";
 
 const props = defineProps({
   users: {
@@ -21,9 +23,14 @@ const props = defineProps({
   },
 });
 
+const counterStore = useCounterStore();
+
+const {counter} = storeToRefs(counterStore);
+
 const emit = defineEmits(['sendUser']);
 
 const sendUser = (user: User) => {
+  counter.value++
   emit('sendUser', user);
 };
 </script>

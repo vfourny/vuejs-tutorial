@@ -1,14 +1,16 @@
 <script lang="ts" setup>
-import {computed, ref} from 'vue';
+import {computed} from 'vue';
 import {NButton, NCard, NText} from 'naive-ui';
+import {useCounterStore} from "@/stores/counter.store.ts";
+import {storeToRefs} from "pinia";
 
-const counter = ref(0);
+const counterStore = useCounterStore();
+
+const {counter} = storeToRefs(counterStore);
+
 const doubleCounter = computed(() => counter.value * 2);
 
-const reset = () => {
-  counter.value = 0;
-};
-</script>
+</script>s
 
 <template>
   <n-card bordered title="Compteur">
@@ -17,7 +19,7 @@ const reset = () => {
     <n-text type="success">Double : {{ doubleCounter }}</n-text>
     <br/><br/>
     <n-button type="primary" @click="counter++">Incrémenter</n-button>
-    <n-button :disabled="counter === 0" class="ml-2" type="error" @click="reset">
+    <n-button :disabled="counter === 0" class="ml-2" type="error" @click="counterStore.reset()">
       Réinitialiser
     </n-button>
   </n-card>
