@@ -1,4 +1,3 @@
-import './assets/main.css'
 import NaiveUI from 'naive-ui';
 import {createApp} from 'vue'
 import App from './App.vue'
